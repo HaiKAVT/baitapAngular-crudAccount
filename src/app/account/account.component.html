@@ -1,0 +1,115 @@
+<div class="container">
+  <h2>Table Product</h2>
+  <p></p>
+  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalCreate">
+    Create
+  </button>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>STT</th>
+      <th>Name</th>
+      <th>Img</th>
+      <th>Status</th>
+      <th>Password</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr *ngFor="let account of accounts, index as i">
+      <td>{{i+1}}</td>
+      <td>{{account.name}}</td>
+      <td><img src="{{account.img}}" width="200" height="200"></td>
+
+      <!--  *ngIf nếu là true thì sẽ hiển thị thẻ đó, không hiển thị thẻ khi là false-->
+      <td *ngIf="account.status === true" style="color: blue">Hoạt động</td>
+      <td *ngIf="account.status === false" style="color: red">bị khóa</td>
+
+      <td>{{account.pass}}</td>
+      <td>
+        <button type="button" class="btn btn-secondary" (click)="showEdit(account.name)" data-toggle="modal"
+                data-target="#myModalEdit">
+          Edit
+        </button>
+      </td>
+      <td>
+        <button (click)="deleteAccount(account.name)" type="button" class="btn btn-secondary">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <!-- The Modal create -->
+  <div class="modal" id="myModalCreate">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Create Product</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <form [formGroup]="accountFormGroup">
+          <div class="modal-body">
+            nhập name : <input placeholder="name" formControlName="name">
+            <p *ngIf="!accountFormGroup.get('name')?.valid && accountFormGroup.get('name')?.touched" style="color: red">Name min 6</p>
+            <br>
+            nhập img :<input placeholder="img" formControlName="img">
+            <p *ngIf="!accountFormGroup.get('img')?.valid && accountFormGroup.get('img')?.touched" style="color: red">Not null</p>
+            <br>
+            nhập status :<input formControlName="status">
+            <p *ngIf="!accountFormGroup.get('status')?.valid && accountFormGroup.get('status')?.touched" style="color: red">true / false </p>
+            nhập password: <input formControlName="pass">
+            <p *ngIf="!accountFormGroup.get('pass')?.value && accountFormGroup.get('pass')?.touched" style="color: red">password có ít nhất 6 kí tự</p>
+          </div>
+        </form>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" (click)="createAccount()"
+                  [disabled]="accountFormGroup.invalid"
+                  class="btn btn-success" data-dismiss="modal">Create</button>
+          <button type="button" (click)="accountFormGroup.reset()" class="btn btn-danger" data-dismiss="modal">Close
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- The Modal Edit -->
+  <div class="modal" id="myModalEdit">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Product</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <form [formGroup]="accountFormGroup">
+          <div class="modal-body">
+            nhập name : <input placeholder="name" readonly formControlName="name">
+            <br>
+            nhập img :<input placeholder="img" formControlName="img">
+            <br>
+            nhập password :<input formControlName="pass">
+          </div>
+        </form>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" (click)="submitEdit()" class="btn btn-success" data-dismiss="modal">Edit</button>
+          <button type="button" (click)="accountFormGroup.reset()" class="btn btn-danger" data-dismiss="modal">Close
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

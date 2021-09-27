@@ -1,0 +1,25 @@
+
+<div class="container">
+  <h2>Bordered Table</h2>
+  <p>The .table-bordered class adds borders to a table:</p>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>STT</th>
+      <th>Name</th>
+      <th>Img</th>
+      <th>Password</th>
+      <th>Status</th>
+    </tr>
+    </thead>
+    <tr *ngFor="let account of accounts, index as i">
+      <td>{{i+1}}</td>
+      <td>{{account.name}}</td>
+      <td>
+        <img src="{{account.img}}" width="200" height="200">
+      </td>
+      <td>{{account.pass}}</td>
+      <td>{{account.status}}</td>
+    </tr>
+  </table>
+</div>
